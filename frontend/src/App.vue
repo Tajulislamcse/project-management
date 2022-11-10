@@ -3,11 +3,11 @@
     <div class="wrapper">
 
   <!-- Navbar -->
-    <nav-bar v-if="auth"> </nav-bar>
+    <nav-bar v-if="changeAuthStatus"> </nav-bar>
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
-   <side-bar v-if="auth"> </side-bar>
+   <side-bar v-if="changeAuthStatus"> </side-bar>
   <!-- Content Wrapper. Contains page content -->
   <router-view></router-view>
   <!-- /.content-wrapper -->
@@ -37,11 +37,12 @@
       NavBar,
       SideBar
     },
-    data()
+    computed:
     {
-      return {
-        auth:false
-      }
+       changeAuthStatus()
+       {
+         return this.$store.getters.getAuthStatus;
+       }
     }
   }
 </script>

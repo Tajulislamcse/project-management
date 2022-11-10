@@ -8,25 +8,35 @@
 			<div class="card">
 				<div class="card-body login-card-body">
 					<p class="login-box-msg">Sign in to start your session</p>
+						<!-- <span v-if="errors.message" class="text-danger">{{errors.message}}</span> -->
+					   <!-- <span v-if="errors"></span> -->
+					   <template v-for="(error,index) in errors" :key="index">
+					   	<span v-if="errors.message" class="text-danger">{{errors.message}}
+					   	</span>
+					   	<span v-else="error[0]" class="text-danger">{{error[0]}}</span><br>
+					   </template>
 
 					<form @submit.prevent="login" method="post">
 						<div class="input-group mb-3">
-							<input type="email" class="form-control" placeholder="Email" v-model="form.email">
+							<input type="email" class="form-control" placeholder="Email" v-model="formData.email">
 							<div class="input-group-append">
 								<div class="input-group-text">
 									<span class="fas fa-envelope"></span>
 								</div>
 							</div>
 						</div>
+						<!-- <span v-if="errors.email[0]" class="text-danger">{{errors.email[0]}}</span> -->
+
 						<div class="input-group mb-3">
-							<input type="password" class="form-control" placeholder="Password" v-model="form.password">
+							<input type="password" class="form-control" placeholder="Password" v-model="formData.password">
 							<div class="input-group-append">
 								<div class="input-group-text">
 									<span class="fas fa-lock"></span>
 								</div>
 							</div>
 						</div>
-						<div class="row">
+<!-- 						<span v-if="errors.password[0]" class="text-danger">{{errors.password[0]}}</span>
+ -->						<div class="row">
 
 							<!-- /.col -->
 							<div class="col-4">
@@ -67,17 +77,27 @@
 		data()
 		{
 			return {
-				form: {
+				formData: {
+                    name:'',
 					email:'',
 					password:''
-				}
+				},
+				errors:{}
 			}
 		},
 		methods:
 		{
 			login()
 			{
-			 this.$store.dispatch('login',this.form)
+			 this.$store.dispatch('login',this.formData)
+			 	.then((response)=>{
+				//console.log(response.data)
+				this.$router.push({name:'Home'}) 
+			})
+			.catch((error)=>{
+                 this.errors = error.response.data
+             
+			})
 
 			}
 		}

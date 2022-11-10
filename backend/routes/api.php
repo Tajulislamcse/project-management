@@ -20,5 +20,12 @@ use App\Http\Controllers\Api\AuthController;
 // });
 Route::post('register',[AuthController::class,'registerUser']);
 Route::post('login',[AuthController::class,'loginUser']);
-
+// Route::get('login',function()
+// {
+//     return response()->json('okay');
+// });
+Route::middleware('auth:api')->group(function()
+{
+ Route::post('logout',[AuthController::class,'logout']);
+});
 

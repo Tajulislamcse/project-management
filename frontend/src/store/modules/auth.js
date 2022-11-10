@@ -1,5 +1,5 @@
 import axios from 'axios'
-//axios.defaults.baseUrl = 'http://127.0.0.1:8000/api';
+axios.defaults.baseURL = 'http://127.0.0.1:8000/api';
 
 export const auth = {
 	state:{
@@ -32,22 +32,86 @@ export const auth = {
 	{
 		login(context,formData)
 		{
-
-			axios.post('http://127.0.0.1:8000/api/login',formData)
+          return new Promise((resolve,reject)=>
+          { 
+			axios.post('/login',formData)
 			.then((response)=>{
-				console.log(response.data)
+				//console.log(response.data)
+                context.commit('setAuthToken',response.data.token)
+                context.commit('setAuthInfo',response.data.user)
+				resolve(response)
 			})
 			.catch((error)=>{
-				console.log(error.response.data)
-			})
-			
+				//console.log(error.response.data)
 
-			
-		}
+				reject(error)
+			})
+          })
+      },
+
+      logout(context)
+		{
+         axios.defaults.headers.common['Authorization'] = 'Bearer '+context.state.auth_token
+          return new Promise((resolve,reject)=>
+          {
+			axios.post('/logout')
+			.then((response)=>{
+				//console.log(response.data)
+                context.commit('setAuthInfoNull')
+                resolve(response)
+       
+			})
+			.catch((error)=>{
+				//console.log(error.response.data)
+
+				reject(error)
+			})
+          })
+      },
+      register(context,formData)
+		{
+          return new Promise((resolve,reject)=>
+          { 
+			axios.post('/register',formData)
+			.then((response)=>{
+				//console.log(response.data)
+                context.commit('setAuthToken',response.data.token)
+                context.commit('setAuthInfo',response.data.user)
+				resolve(response)
+			})
+			.catch((error)=>{
+				//console.log(error.response.data)
+
+				reject(error)
+			})
+          })
+      },
 
 	},
 	mutations:
 	{
+       setAuthToken(state,token)
+       {
+       	state.auth_token = token;
+       	state.auth_status = true;
 
+       },
+       setAuthInfo(state,user)
+       {
+       	state.auth_info.name = user.name;
+       	state.auth_info.email = user.email;
+
+       },
+       setAuthInfoNull(state)
+       {
+       	state.auth_token = null;
+       	state.auth_status = false;
+       	state.auth_info.name = null;
+       	state.auth_info.email = null;
+
+
+
+
+       }
 	}
 }
