@@ -40,27 +40,18 @@
               <div class="card-header">
                 <h3 class="card-title">
                   <i class="ion ion-clipboard mr-1"></i>
-                  To Do List
+                  Project List
                 </h3>
-
-                <div class="card-tools">
-                  <ul class="pagination pagination-sm">
-                    <li class="page-item"><a href="#" class="page-link">&laquo;</a></li>
-                    <li class="page-item"><a href="#" class="page-link">1</a></li>
-                    <li class="page-item"><a href="#" class="page-link">2</a></li>
-                    <li class="page-item"><a href="#" class="page-link">3</a></li>
-                    <li class="page-item"><a href="#" class="page-link">&raquo;</a></li>
-                  </ul>
-                </div>
+                 <router-link :to="{name:'add-project'}" class="btn btn-info float-right"><i class="fas fa-plus"></i> Add item</router-link>
               </div>
               <!-- /.card-header -->
             <div class="card-body">
               <table id="myTable" class="table table-bordered table-hover">
                 <thead>
-          <th>Id</th>
-          <th>Name</th>
-          <th>Description</th>
-          <th>Status</th>
+                  <th>Id</th>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th>Status</th>
                 </thead>
                 <tbody>
 
@@ -69,9 +60,9 @@
               </table>
             </div>
               <!-- /.card-body -->
-              <div class="card-footer clearfix">
+<!--               <div class="card-footer clearfix">
                 <router-link :to="{name:'add-project'}" class="btn btn-info float-right"><i class="fas fa-plus"></i> Add item</router-link>
-              </div>
+              </div> -->
             </div>
             <!-- /.card -->
           </section>
@@ -100,6 +91,7 @@ export default {
        this.$store.dispatch('getProjects')
           .then((response)=>{        //  console.log(response.data)
           $("#myTable").DataTable({
+ 
             //dom: "Bfrtip",
            // buttons: ["colvis", "excel", "print", "csv"],
             data: response.data.data,
@@ -107,7 +99,7 @@ export default {
               { data: "id" },
               { data: "name" },
               { data: "description" },
-              { data: "status" },
+              { data: "status_text" },
             ],
           });
         })

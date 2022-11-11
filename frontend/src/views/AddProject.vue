@@ -3,7 +3,9 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
-
+        <div>
+          <router-link class="btn btn-info center" :to="{name:'Home'}">Project List</router-link>
+        </div>
       </div><!-- /.container-fluid -->
     </section>
 
@@ -20,15 +22,16 @@
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <template v-if="errors">
-                <span class="text-danger">{{errors.name}}</span>
-              </template>
+             <template v-for="error in errors" :key="index">
+               <span  class="text-center text-danger mt-4">{{error[0]}}</span>
+             </template>
               <form role="form" @submit.prevent="AddProject" method="post">
                 <div class="card-body">
                   <div class="form-group">
-                    <label for="name"></label>
+                    <label for="name">Name</label>
                     <input type="text" v-model.lazy="formData.name" class="form-control" id="name" placeholder="Enter project name">
                   </div>
+                          
                     
                       <!-- textarea -->
                       <div class="form-group">
@@ -97,6 +100,7 @@
       })
       .catch((error)=>{
                  this.errors = error.response.data
+
              
       })
 
