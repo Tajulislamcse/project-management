@@ -36,7 +36,28 @@ export const project = {
             axios.post('/projects',formData)
             .then((response)=>{
                 console.log(response.data)
-                context.commit('setProjectInfo',response.data.project)
+                context.commit('setProjectInfo',response.data)
+                resolve(response)
+       
+            })
+            .catch((error)=>{
+                //console.log(error.response.data)
+
+                reject(error)
+            })
+          })
+      },
+
+        getProjects(context)
+        {
+        axios.defaults.headers.common['Authorization'] = 'Bearer '+context.state.auth_token;
+        axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+          return new Promise((resolve,reject)=>
+          {
+            axios.get('/projects')
+            .then((response)=>{
+                console.log(response.data)
+               // context.commit('setProjectInfo',response.data.project)
                 resolve(response)
        
             })
