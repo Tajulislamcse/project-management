@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\ProjectController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -27,5 +29,7 @@ Route::post('login',[AuthController::class,'loginUser']);
 Route::middleware('auth:api')->group(function()
 {
  Route::post('logout',[AuthController::class,'logout']);
+ Route::resource('projects',ProjectController::class);
+
 });
 

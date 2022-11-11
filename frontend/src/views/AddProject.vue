@@ -1,0 +1,107 @@
+<template>
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <!-- left column -->
+          <div class="col-md-6">
+            <!-- general form elements -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Create Project</h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+              <template v-if="errors">
+                <span class="text-danger">{{errors.name}}</span>
+              </template>
+              <form role="form" @submit.prevent="AddProject" method="post">
+                <div class="card-body">
+                  <div class="form-group">
+                    <label for="name"></label>
+                    <input type="text" v-model.lazy="formData.name" class="form-control" id="name" placeholder="Enter project name">
+                  </div>
+                    
+                      <!-- textarea -->
+                      <div class="form-group">
+                        <label>Description</label>
+                        <textarea class="form-control" v-model.lazy = "formData.description" rows="3" placeholder="Enter Project Description"></textarea>
+                      </div>
+                    
+
+                  <div class="form-check">
+                    <input type="checkbox" v-model="formData.status" class="form-check-input" id="exampleCheck1">
+                    <label class="form-check-label" for="exampleCheck1">Status</label>
+                  </div>
+                </div>
+                <!-- /.card-body -->
+
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+              </form>
+            </div>
+            <!-- /.card -->
+
+            <!-- Form Element sizes -->
+
+            <!-- /.card -->
+
+
+
+            <!-- /.card -->
+        
+            <!-- /.card -->
+
+          </div>
+          <!--/.col (left) -->
+
+          <!--/.col (right) -->
+        </div>
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+</template>
+<script>
+  export default {
+    data()
+    {
+      return {
+        formData: {
+          name :'',
+          description:'',
+          status:false
+        },
+        errors:{}
+      }
+    },
+    methods:
+    {
+      AddProject()
+      {
+         //console.log(this.formData); 
+       this.$store.dispatch('AddProject',this.formData)
+        .then((response)=>{
+        //console.log(response.data)
+        this.$router.push({name:'Home'}) 
+      })
+      .catch((error)=>{
+                 this.errors = error.response.data
+             
+      })
+
+      
+      }
+    }
+  }
+</script>

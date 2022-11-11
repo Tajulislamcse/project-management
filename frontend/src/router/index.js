@@ -1,7 +1,7 @@
 import Home from '../views/Home';
 import Login from '../views/auth/Login';
 import Registration from '../views/auth/Registration';
-//import AddProduct from '../components/AddProduct';
+import AddProject from '../views/AddProject';
 import {createRouter, createWebHistory } from 'vue-router';
 import store from '../store';
 
@@ -32,6 +32,12 @@ routes:[
     name:'Home',
     component:Home,
     meta:{auth:true}
+},
+{
+    path:'/add-project',
+    name:'add-project',
+    component:AddProject,
+    //meta:{auth:true}
 }
 ]
 
