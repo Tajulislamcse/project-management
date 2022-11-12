@@ -30,6 +30,7 @@ Route::middleware('auth:api')->group(function()
 {
  Route::post('logout',[AuthController::class,'logout']);
  Route::resource('projects',ProjectController::class);
+ Route::get('users',[AuthController::class,'getUsers']);
 
 });
 

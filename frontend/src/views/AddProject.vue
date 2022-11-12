@@ -10,9 +10,13 @@
     </section>
 
     <!-- Main content -->
+
+     <form @submit.prevent="AddProject">
     <section class="content">
       <div class="container-fluid">
+       
         <div class="row">
+         
           <!-- left column -->
           <div class="col-md-6">
             <!-- general form elements -->
@@ -22,10 +26,9 @@
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-             <template v-for="error in errors" :key="index">
-               <span  class="text-center text-danger mt-4">{{error[0]}}</span>
+            <template v-for="error in errors" :key="index">
+            <span  class="text-center text-danger mt-4">{{error[0]}}</span>
              </template>
-              <form role="form" @submit.prevent="AddProject" method="post">
                 <div class="card-body">
                   <div class="form-group">
                     <label for="name">Name</label>
@@ -50,8 +53,8 @@
                 <div class="card-footer">
                   <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
-              </form>
-            </div>
+               </div>
+             </div>
             <!-- /.card -->
 
             <!-- Form Element sizes -->
@@ -64,14 +67,37 @@
         
             <!-- /.card -->
 
-          </div>
-          <!--/.col (left) -->
+          <div class="col-md-6">
+          <!-- /.card-header -->
+              <div class="card-body">
+                <ul class="todo-list" data-widget="todo-list">
+                  <li v-for="user in users" :key="user.id">
+                    <!-- drag handle -->
+                    <span class="handle">
+                      <i class="fas fa-ellipsis-v"></i>
+                      <i class="fas fa-ellipsis-v"></i>
+                    </span>
+                    <!-- checkbox -->
+                    <div  class="check-primary d-inline ml-2">
+                      <input type="checkbox" v-model="formData.users_id" :value="user.id">
+                      <label for="todoCheck1"></label>
+                    </div>
+                    <!-- todo text -->
+                    <span class="text">{{user.name}}</span>
+                    <!-- Emphasis label -->
 
-          <!--/.col (right) -->
+                    <!-- General tools such as edit or delete-->
+
+                  </li>
+                </ul>
+              </div>
+         </div>
+        
+      
         </div>
-        <!-- /.row -->
-      </div><!-- /.container-fluid -->
+      </div>
     </section>
+    </form>
     <!-- /.content -->
   </div>
 </template>
@@ -83,16 +109,19 @@
         formData: {
           name :'',
           description:'',
-          status:false
+          status:false,
+          users_id:[]
+
         },
-        errors:{}
+        errors:{},
+        users:[]
       }
     },
     methods:
     {
       AddProject()
       {
-         //console.log(this.formData); 
+         console.log(this.formData.users_id); 
        this.$store.dispatch('AddProject',this.formData)
         .then((response)=>{
         //console.log(response.data)
@@ -106,6 +135,25 @@
 
       
       }
+    },
+   mounted()
+   {
+
+         //console.log(this.formData); 
+       this.$store.dispatch('getUsers')
+        .then((response)=>{
+          this.users = response.data.data
+       // console.log(response.data.data)
+       // this.$router.push({name:'Home'}) 
+      })
+      .catch((error)=>{
+                 this.errors = error.response.data
+
+             
+      })
+
+      
+      
     }
   }
 </script>

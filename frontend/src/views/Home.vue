@@ -42,7 +42,7 @@
                   <i class="ion ion-clipboard mr-1"></i>
                   Project List
                 </h3>
-                 <router-link :to="{name:'add-project'}" class="btn btn-info float-right"><i class="fas fa-plus"></i> Add item</router-link>
+                 <router-link :to="{name:'add-project'}" class="btn btn-info float-right"><i class="fas fa-plus"></i> Add Project</router-link>
               </div>
               <!-- /.card-header -->
             <div class="card-body">
@@ -50,6 +50,7 @@
                 <thead>
                   <th>Id</th>
                   <th>Name</th>
+                  <th>Members</th>
                   <th>Description</th>
                   <th>Status</th>
                 </thead>
@@ -98,6 +99,7 @@ export default {
             columns: [
               { data: "id" },
               { data: "name" },
+              { data: "members"},
               { data: "description" },
               { data: "status_text" },
             ],

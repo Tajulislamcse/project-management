@@ -5,9 +5,10 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\ProjectRequest;
+use App\Models\Project;
+use App\Models\User;
+use App\Http\Resources\ProjectResource;
 use DB;
-
-
 class ProjectController extends Controller
 {
     /**
@@ -17,8 +18,9 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = DB::table('projects')->get();
-        return response(['data'=>$projects],200);
+          $projects = Project::with(['users'])
+          ->get();
+         return ProjectResource::collection($projects);
     }
 
     /**
@@ -43,12 +45,13 @@ class ProjectController extends Controller
         $data = [
             'name'=>$request->name,
             'description'=>$request->description,
-            'member_id'=> $request->members,
             'status' => $request->status
         ];
-        DB::table('projects')->insert($data);
-        $project = DB::table('projects')->orderBy('id','desc')->first();
-        return response()->json(['data'=>$project,'message'=>'Project has been created'],200);
+
+         $project = Project::create($data);
+         $users = $request->users_id;
+         $project->users()->attach(User::whereIn('id',$users)->get());
+         return response()->json(['data'=>$project,'message'=>'Project has been created'],200);
 
 
     }
@@ -92,8 +95,8 @@ class ProjectController extends Controller
             'member_id'=> $request->members,
             'status' => $request->status
         ];
-        DB::table('projects')->where('id',$id)->update($data);
-        $project = DB::table('projects')->where('id',$id)->first();
+         Project::findOrFail($id)->update($data);
+         $project = Project::findOrFail($id)->first();
         return response()->json(['data'=> $project,'message'=>'Project has been updated'],200);
     }
 
@@ -105,7 +108,7 @@ class ProjectController extends Controller
      */
     public function destroy($id)
     {
-        DB::table('projects')->where('id',$id)->delete();
+        Project::destroy($id);
         return response()->json(['message'=>'Project has been Deleted'],200);
 
     }

@@ -58,4 +58,9 @@ class AuthController extends Controller
        auth()->user()->token()->revoke();
        return response()->json(['message'=>'Logout has been successful'],200);
     }
+    public function getUsers()
+    {
+      $users = User::all();
+      return response()->json(['data'=>$users],200);
+    }
 }
