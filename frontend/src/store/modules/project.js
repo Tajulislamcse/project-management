@@ -87,6 +87,26 @@ export const project = {
                 reject(error)
             })
           })
+      },
+        getGroups(context)
+        {
+        axios.defaults.headers.common['Authorization'] = 'Bearer '+context.state.auth_token;
+        axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+          return new Promise((resolve,reject)=>
+          {
+            axios.get('/groups')
+            .then((response)=>{
+                //console.log(response.data)
+               // context.commit('setProjectInfo',response.data.project)
+                resolve(response)
+       
+            })
+            .catch((error)=>{
+                //console.log(error.response.data)
+
+                reject(error)
+            })
+          })
       }
    
     },

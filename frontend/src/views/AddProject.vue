@@ -70,6 +70,28 @@
           <div class="col-md-6">
           <!-- /.card-header -->
               <div class="card-body">
+                <h3>Assign To Groups</h3>
+                <ul class="todo-list" data-widget="todo-list">
+                  <li v-for="group in groups" :key="group.id">
+                    <!-- drag handle -->
+                    <span class="handle">
+                      <i class="fas fa-ellipsis-v"></i>
+                      <i class="fas fa-ellipsis-v"></i>
+                    </span>
+                    <!-- checkbox -->
+                    <div  class="check-primary d-inline ml-2">
+                      <input type="radio" v-model="formData.group_id" :value="group.id">
+                      <label for="todoCheck1"></label>
+                    </div>
+                    <!-- todo text -->
+                    <span class="text">{{group.name}}</span>
+                    <!-- Emphasis label -->
+
+                    <!-- General tools such as edit or delete-->
+
+                  </li>
+                </ul>
+              <h3> Assign To Individual Person</h3>
                 <ul class="todo-list" data-widget="todo-list">
                   <li v-for="user in users" :key="user.id">
                     <!-- drag handle -->
@@ -110,18 +132,20 @@
           name :'',
           description:'',
           status:false,
-          users_id:[]
+          users_id:[],
+          group_id:''
 
         },
         errors:{},
-        users:[]
+        users:[],
+        groups:[]
       }
     },
     methods:
     {
       AddProject()
       {
-         console.log(this.formData.users_id); 
+         //console.log(this.formData.users_id); 
        this.$store.dispatch('AddProject',this.formData)
         .then((response)=>{
         //console.log(response.data)
@@ -139,6 +163,18 @@
    mounted()
    {
 
+      this.$store.dispatch('getGroups')
+        .then((response)=>{
+          this.groups = response.data.groups
+        //console.log(this.groups)
+       // this.$router.push({name:'Home'}) 
+      })
+      .catch(()=>{
+                
+
+             
+      })
+
          //console.log(this.formData); 
        this.$store.dispatch('getUsers')
         .then((response)=>{
@@ -146,11 +182,12 @@
        // console.log(response.data.data)
        // this.$router.push({name:'Home'}) 
       })
-      .catch((error)=>{
-                 this.errors = error.response.data
+      .catch(()=>{
+                 
 
              
       })
+
 
       
       

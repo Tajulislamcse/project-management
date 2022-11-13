@@ -50,7 +50,7 @@
                 <thead>
                   <th>Id</th>
                   <th>Name</th>
-                  <th>Members</th>
+                  <th>Assigned</th>
                   <th>Description</th>
                   <th>Status</th>
                 </thead>
@@ -80,6 +80,8 @@
 </div>
 </template>
 <script>
+
+
 import axios from "axios";
 import $ from "jquery";
 export default {
@@ -105,8 +107,9 @@ export default {
             ],
           });
         })
-        .catch((error) => console.log(error.response));
+        .catch(() => console.log());
     },
   },
+
 };
 </script>

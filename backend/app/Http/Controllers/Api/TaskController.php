@@ -4,12 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Requests\ProjectRequest;
-use App\Models\Project;
-use App\Models\User;
-use App\Http\Resources\ProjectResource;
-use DB;
-class ProjectController extends Controller
+
+class TaskController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,9 +14,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-          $projects = Project::with(['users'])
-          ->get();
-         return ProjectResource::collection($projects);
+        //
     }
 
     /**
@@ -39,22 +33,9 @@ class ProjectController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ProjectRequest $request)
+    public function store(Request $request)
     {
-        $data = [];
-        $data = [
-            'name'=>$request->name,
-            'description'=>$request->description,
-            'status' => $request->status,
-            'group_id' => $request->group_id
-        ];
-
-         $project = Project::create($data);
-         $users = $request->users_id;
-         $project->users()->attach(User::whereIn('id',$users)->get());
-         return response()->json(['data'=>$project,'message'=>'Project has been created'],200);
-
-
+        //
     }
 
     /**
@@ -88,17 +69,7 @@ class ProjectController extends Controller
      */
     public function update(Request $request, $id)
     {
-
-        $data = [];
-        $data = [
-            'name'=>$request->name,
-            'description'=>$request->description,
-            'member_id'=> $request->members,
-            'status' => $request->status
-        ];
-         Project::findOrFail($id)->update($data);
-         $project = Project::findOrFail($id)->first();
-        return response()->json(['data'=> $project,'message'=>'Project has been updated'],200);
+        //
     }
 
     /**
@@ -109,8 +80,6 @@ class ProjectController extends Controller
      */
     public function destroy($id)
     {
-        Project::destroy($id);
-        return response()->json(['message'=>'Project has been Deleted'],200);
-
+        //
     }
 }

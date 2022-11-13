@@ -20,11 +20,8 @@ public function toArray($request)
         'description' => $this->description,
         'created_at' => $this->created_at,
         'status_text' => $this->status == 1 ? "Active" : "Inactive",
-        'members' => $this->whenLoaded(
-         'users',
-         $this->users->pluck('name')->unique()->all(),
-         []
-     )
+        'members' => $this->group->name ?? $this->whenLoaded('users',
+         $this->users->pluck('name')->unique()->all(),[]) 
     ];
 }
 }
